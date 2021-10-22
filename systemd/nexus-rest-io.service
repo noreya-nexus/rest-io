@@ -1,0 +1,15 @@
+[Unit]
+Description=IO Module REST API
+Wants=multi-user.target nexus-drv-io.service
+
+[Service]
+Environment=RUST_APP_LOG="info"
+Environment=ROCKET_ENV=production
+Environment=PORT=8002
+ExecStart=/usr/bin/nexus-rest-io
+MemoryMax=10M
+User=sdbp
+Group=sdbp
+
+[Install]
+WantedBy=multi-user.target

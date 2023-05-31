@@ -1,4 +1,4 @@
-use nexus_unity_sdbp::drv::api::*;
+use noreya_sdbp::drv::api::*;
 use rocket::serde::json::Json;
 
 use crate::api_version::ApiVersion;

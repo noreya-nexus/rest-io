@@ -8,17 +8,17 @@ use crate::settings::{MAX_PINS};
 #[serde(deny_unknown_fields)]
 pub struct PinConfigJson {
         pub rail: String,
-        pub current: u16,
+        pub current_milliampere: u16,
 }
 
 impl PinConfigJson {
 
     pub fn new(rail : String, current : u16) -> PinConfigJson {
-        PinConfigJson{rail,current}
+        PinConfigJson{rail, current_milliampere: current }
     }
 
     pub fn create_default() -> PinConfigJson {
-        PinConfigJson { rail: "5_volt".to_string(), current: 0 }
+        PinConfigJson { rail: "5_volt".to_string(), current_milliampere: 0 }
     }
 }
 
@@ -68,7 +68,7 @@ pub fn map_config(config: &Vec<PinConfigJson>) -> Vec<(u8,u16)> {
     }
     let mut cnt = 0;
     for pin in config {
-        pin_pwr[cnt] = (map_rail(&pin.rail).unwrap(), pin.current);
+        pin_pwr[cnt] = (map_rail(&pin.rail).unwrap(), pin.current_milliampere);
         cnt += 1;
     }
     return pin_pwr;

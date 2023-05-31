@@ -2,7 +2,7 @@ use rocket::{ State};
 
 use crate::api::helper::Helper;
 use crate::api_version::ApiVersion;
-use crate::response;
+use crate::{response, SharedData};
 use crate::input::*;
 use crate::settings::Settings;
 use crate::response::CResponse;
@@ -32,11 +32,12 @@ pub fn get_descriptor(settings: &State<Settings>, version: ApiVersion, slot: u16
 }
 
 #[get("/io/<version>")]
-pub fn index(settings: &State<Settings>, version: ApiVersion) -> CResponse {
+pub fn index(settings: &State<Settings>, shared: &State<SharedData>, version: ApiVersion) -> CResponse {
     let mut com_manager = match Helper::init_api(&settings, version, &json::empty::Param::empty_json()) {
         Ok(value) => value,
         Err(err) => return err,
     };
+    let lock = shared.driver_session.lock().expect("Could not lock mutex");
 
     let mut js_dev_list: Vec<json::info::Device> = vec![];
     let drv_info = match com_manager.get_info() {
@@ -49,7 +50,9 @@ pub fn index(settings: &State<Settings>, version: ApiVersion) -> CResponse {
     match result {
         Ok(device_list) => {
             for entry in device_list {
-                let test = json::info::Device { slot_number: (entry.adr() as u32), sdbp_version: entry.protocol_version().clone() };
+                let test = json::info::Device { slot_number: (entry.adr() as u32),
+                    sdbp_version: entry.protocol_version().clone(),
+                    device_session: entry.device_session().clone() };
                 js_dev_list.push(test);
             }
         },
@@ -60,6 +63,7 @@ pub fn index(settings: &State<Settings>, version: ApiVersion) -> CResponse {
     let module_driver = drv_info.clone().get_version();
     let kernel_driver = drv_info.clone().get_sdbpk_version();
     let res_json = json::info::Root {
+        driver_session: lock.to_ascii_uppercase(),
         version: json::info::Driver {
             api: settings.api_version(),
             service: settings.service_version(),

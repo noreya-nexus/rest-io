@@ -1,4 +1,4 @@
-use nexus_unity_sdbp::datatypes::{VersionError};
+use noreya_sdbp::datatypes::{VersionError};
 use rocket::request::FromParam;
 
 pub struct ApiVersion {

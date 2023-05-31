@@ -6,8 +6,8 @@ use crate::response;
 use crate::input::*;
 use crate::settings::{Settings};
 use rocket::serde::json::Json;
-use nexus_unity_sdbp::sdbp::request::custom::io::IoBuilder;
-use nexus_unity_sdbp::sdbp::response::custom::io::input::*;
+use noreya_sdbp::sdbp::request::custom::io::IoBuilder;
+use noreya_sdbp::sdbp::response::custom::io::input::*;
 
 use crate::input::json::inputmode::{InputModeJson};
 use crate::input::json::analog_threshold::AnalogThresholdJson;
@@ -50,7 +50,7 @@ pub fn set_analog_threshold(settings: &State<Settings>, version: ApiVersion, slo
         Err(err) => return err,
     };
 
-    let command = match IoBuilder::new().input().set_analog_threshold(param.pin, param.threshold_mV, &param.trigger) {
+    let command = match IoBuilder::new().input().set_analog_threshold(param.pin, param.threshold_millivolt, &param.trigger) {
         Ok(value) => value,
         Err(err) => return response::bad_request(err.to_string()),
     };
@@ -76,7 +76,7 @@ pub fn set_digital_interrupt(settings: &State<Settings>, version: ApiVersion, sl
         Err(err) => return err,
     };
 
-    let command = match IoBuilder::new().input().set_digital_interrupt(param.pin, param.debounce_time_ms, &param.trigger) {
+    let command = match IoBuilder::new().input().set_digital_interrupt(param.pin, param.debounce_time_milliseconds, &param.trigger) {
         Ok(value) => value,
         Err(err) => return response::bad_request(err.to_string()),
     };

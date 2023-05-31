@@ -6,10 +6,10 @@ use crate::response;
 
 use crate::settings::{Settings};
 use rocket::serde::json::Json;
-use nexus_unity_sdbp::sdbp::request::custom::io::IoBuilder;
+use noreya_sdbp::sdbp::request::custom::io::IoBuilder;
 
 use crate::input::json::output_state::{OutputStateJson, map_state, MODE_OUTPUT};
-use nexus_unity_sdbp::sdbp::response::custom::io::output::OutputModeStatus;
+use noreya_sdbp::sdbp::response::custom::io::output::OutputModeStatus;
 use crate::response::CResponse;
 
 #[post("/io/<version>/<slot>/output/state",data="<param>")]

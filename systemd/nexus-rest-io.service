@@ -1,15 +1,63 @@
 [Unit]
 Description=IO Module REST API
-Wants=multi-user.target nexus-drv-io.service
+Wants=nexus-drv-io.service
+PartOf=nexus-drv-io.service
+StartLimitIntervalSec=0
 
 [Service]
-Environment=RUST_APP_LOG="info"
-Environment=ROCKET_ENV=production
+Type=notify
+Environment=RUST_APP_LOG="warn"
+Environment=ROCKET_PROFILE=production
 Environment=PORT=8002
 ExecStart=/usr/bin/nexus-rest-io
 MemoryMax=10M
+MemorySwapMax=0
+CPUSchedulingPolicy=rr
+#CPUSchedulingPriority= 1-100 higher=better
+CPUSchedulingPriority=80
+IOSchedulingClass=realtime
+#IOSchedulingPriority= 0-7 lower=better
+IOSchedulingPriority=5
+IOAccounting=yes
+#IOWeight= default is 100, higher=better
+IOWeight=200
 User=sdbp
 Group=sdbp
+Restart=on-failure
+RestartSec=10s
+
+DevicePolicy=closed
+# Does not affect real time settings of service
+RestrictRealtime =  yes
+# systemd-analyze security check does not work for UMask
+UMask=0027
+PrivateDevices = yes
+#RootDirectory=/RootImage= # Not applicable
+PrivateNetwork = no
+PrivateTmp = yes
+NoNewPrivileges = yes
+ProtectSystem = strict
+ProtectHome = yes
+ProtectKernelModules = yes
+ProtectKernelLogs = yes
+ProtectKernelTunables = yes
+ProtectControlGroups = yes
+RestrictAddressFamilies = AF_UNIX AF_INET
+RestrictNamespaces = yes
+RestrictSUIDSGID = yes
+PrivateUsers = yes
+ProtectClock = yes
+ProtectProc = invisible
+ProcSubset = pid
+LockPersonality = yes
+MemoryDenyWriteExecute = yes
+RemoveIPC = yes
+ProtectHostname=yes
+IPAddressAllow=localhost
+IPAddressDeny=any
+SystemCallArchitectures=native
+SystemCallFilter=@basic-io @network-io @file-system @process @signal @io-event sigaction madvise mprotect sched_getaffinity ioctl getrandom
+CapabilityBoundingSet=
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=multi-user.target nexus-drv-io.service

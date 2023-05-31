@@ -17,5 +17,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Update cache
+      run: DEBIAN_FRONTEND="noninteractive" apt-get update
+    - name: Install apt packages
+      run: DEBIAN_FRONTEND="noninteractive" apt-get install -y libudev-dev
     - name: Build project
       run: cargo build --all --verbose

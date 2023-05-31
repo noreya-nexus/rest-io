@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 
-use nexus_unity_sdbp::datatypes::Version;
+use noreya_sdbp::datatypes::Version;
 use std::default::Default;
 
 
@@ -8,8 +8,8 @@ use std::default::Default;
 pub const MAX_PINS : u8 = 6;
 
 // Set REST-API Version
-pub const API_VERSION_MAJOR : u16 = 0;
-pub const API_VERSION_MINOR : u16 = 9;
+pub const API_VERSION_MAJOR : u16 = 1;
+pub const API_VERSION_MINOR : u16 = 0;
 pub const API_VERSION_PATCH : u16 = 0;
 
 pub const SOCKET_PATH : &str = "/var/run/nexus-drv-io/nexus-drv-io.socket";

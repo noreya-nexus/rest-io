@@ -20,8 +20,8 @@ pub fn internal_server_error<'a>(_req: &Request) -> CResponse {
 }
 
 #[catch(502)]
-pub fn bad_gateway(_req: &Request) -> content::Json<&'static str> {
-    content::Json("{ \"status\": \"error\",\n \"code\": 502,\n \"message\": \"Bad Gateway\"\n }")
+pub fn bad_gateway(_req: &Request) -> content::RawJson<&'static str> {
+    content::RawJson("{ \"status\": \"error\",\n \"code\": 502,\n \"message\": \"Bad Gateway\"\n }")
 }
 
 #[catch(400)]

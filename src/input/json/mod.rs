@@ -7,6 +7,7 @@ pub mod analog_threshold;
 pub mod input;
 pub mod output_state;
 pub mod output_pwm;
+pub mod reset;
 
 use rocket::http::Status;
 

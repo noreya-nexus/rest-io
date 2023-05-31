@@ -4,7 +4,7 @@
 #[serde(deny_unknown_fields)]
 pub struct DigitalInterruptJson {
     pub pin : u8,
-    pub debounce_time_ms: u16,
+    pub debounce_time_milliseconds: u16,
     pub trigger: String,
 }
 

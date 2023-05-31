@@ -6,9 +6,9 @@ use crate::response;
 
 use crate::settings::{Settings};
 use rocket::serde::json::Json;
-use nexus_unity_sdbp::sdbp::request::custom::io::IoBuilder;
+use noreya_sdbp::sdbp::request::custom::io::IoBuilder;
 
-use nexus_unity_sdbp::sdbp::response::custom::io::output::OutputModeStatus;
+use noreya_sdbp::sdbp::response::custom::io::output::OutputModeStatus;
 use crate::input::json::output_pwm::{OutputPwmJson, MODE_PWM};
 use crate::response::CResponse;
 
